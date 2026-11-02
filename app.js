@@ -1,3 +1,6 @@
+require("dotenv").config();
+const connectDB = require("./config/database");
+//
 const express = require("express");
 
 const app = express();
@@ -281,10 +284,12 @@ app.use((req, res) => {
 
 // SERVER
 
-if (process.env.NODE_ENV !== "production") {
-  app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
-  });
-}
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server berjalan di http://localhost:${PORT}`);
+    });
+  })
+  .catch((error) => console.error(error));
 
 module.exports = app;
